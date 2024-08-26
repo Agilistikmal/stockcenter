@@ -37,7 +37,21 @@ func NewStockDatastore() *StockDatastore {
 	}
 }
 
-func (d StockDatastore) Open() (*os.File, error) {
-	file, err := os.OpenFile(d.filepath, os.O_APPEND|os.O_RDWR, os.ModeAppend)
+func (d *StockDatastore) OpenAppend() (*os.File, error) {
+	file, err := os.OpenFile(d.filepath, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	return file, err
+}
+
+func (d *StockDatastore) OpenTruncate() (*os.File, error) {
+	file, err := os.OpenFile(d.filepath, os.O_TRUNC|os.O_WRONLY, 0666)
+	return file, err
+}
+
+func (d *StockDatastore) Read() (string, error) {
+	b, err := os.ReadFile(d.filepath)
+	if err != nil {
+		return "", err
+	}
+
+	return string(b), nil
 }
