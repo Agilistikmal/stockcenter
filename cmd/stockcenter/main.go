@@ -1,9 +1,12 @@
 package main
 
 import (
-	"log"
+	"github.com/agilistikmal/stockcenter/internal/stockcenter/delivery/discord"
+	"github.com/agilistikmal/stockcenter/internal/stockcenter/infrastructure/config"
 )
 
 func main() {
-	log.Println("Stockcenter")
+	config.Load()
+	discordClient := discord.New()
+	discordClient.Run()
 }
