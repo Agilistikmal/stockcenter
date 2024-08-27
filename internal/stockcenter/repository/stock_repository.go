@@ -18,6 +18,18 @@ func NewStockRepository(stockDatastore *datastore.StockDatastore) *StockReposito
 	}
 }
 
+func (s *StockRepository) Read() ([]string, error) {
+	content, err := s.stockDatastore.Read()
+	if err != nil {
+		return nil, err
+	}
+
+	separator := viper.GetString("stock.separator")
+	contentSlice := strings.Split(content, separator)
+
+	return contentSlice, nil
+}
+
 func (s *StockRepository) Push(content string) error {
 	file, err := s.stockDatastore.OpenAppend()
 	if err != nil {
